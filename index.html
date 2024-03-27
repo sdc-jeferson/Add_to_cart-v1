@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style/output.css" />
+    <script src="./script.js" defer type="module"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <header class="bg-white mx-8 my-5">
+      <div>
+        <img src="./assets/logo.png" alt="" />
+      </div>
+    </header>
+
+    <main class="bg-gray-90 px-10 py-12">
+      <h1
+        class="text-orange-600 font-bold text-center text-3xl font-oswald sm:text-5xl"
+      >
+        Cardapio
+      </h1>
+
+      <p class="my-4 italic text-center">
+        Pizzas exclusivas no forno a lenha ou deixe-se tentar por nossas massas,
+        antepasto, focaccias, saladas e pratos de Bruscheta. Relaxe no ambiente
+        amigável enquanto aprecia os aromas dos fornos a lenha ou sente-se ao ar
+        livre e aproveite o sol de Mildura.
+      </p>
+
+      <div class="w-full grid gap-6 justify-center" id="menu">
+        <!-- <div
+          class="bg-white px-5 py-6 sm:flex sm:flex-row sm:justify-between sm:w-[600px] md:flex md:gap-6"
+        >
+          <img
+            src="./assets/pizza1.jpg"
+            alt=""
+            class="w-full sm:max-w-[245px] sm:max-h-[249px] md:max-w-[300px] md:max-h-[250px]"
+          />
+          <div class="grid gap-5 mt-5">
+            <p class="font-oswald text-2xl sm:text-3xl">Original</p>
+            <p class="italic">Molho de tomate, mussarela e orégano</p>
+            <p
+              class="price text-orange-600 font-bold text-lg"
+              data-price="18"
+              data-name="Original"
+            >
+              $18.00
+            </p>
+            <button
+              class="add-to-cart-btn bg-gray-400 px-1 py-2 w-60 hover:bg-gray-300 duration-200"
+            >
+              ADICIONAR A CARRINHO
+            </button>
+          </div>
+        </div> -->
+      </div>
+      <section class="text-center mt-5">
+        Developed by <span class="text-orange-500 font-bold">Jeferson</span>
+        🚀
+      </section>
+    </main>
+
+    <!-- MODAL CART -->
+    <div
+      class="bg-black/60 h-full w-full top-0 left-0 z-[99] fixed items-center justify-center hidden"
+      id="modal-cart"
+    >
+      <div
+        class="bg-white p-5 rounded-md max-h-[600px] overflow-y-scroll min-w-[90%] md:min-w-[600px]"
+      >
+        <div class="flex flex-row justify-between mb-2">
+          <p class="text-2xl">Seu Carrinho</p>
+          <button
+            class="bg-gray-300 hover:bg-gray-200 duration-200 px-1 py-1 rounded-md"
+            id="close-modal"
+          >
+            Fechar
+          </button>
+        </div>
+        <hr />
+        <div id="item-cart">
+          <!-- <img
+            src="./assets/pizza1.jpg"
+            alt=""
+            class="h-16 w-16 rounded-md sm:h-24 sm:w-28"
+          />
+          <div class="">
+            <p class="text-orange-400 font-bold text-sm">Pizza Original</p>
+            <p class="text-gray-500 font-bold text-xs">
+              Andamento : <span class="text-green-700 font-bold">Pronto</span>
+            </p>
+            <p class="font-bold text-gray-500 mb-4 text-sm">Preço : $18:00</p>
+            <div class="flex flex-row gap-4">
+              <p class="font-bold text-gray-500 text-sm">Qtd: 1</p>
+              <p class="font-bold text-gray-500 text-sm">Subtotal: $70,00</p>
+            </div>
+          </div>
+          <button
+            class="bg-orange-500 hover:bg-orange-400 duration-200 rounded-md px-2 py-2"
+          >
+            Remover
+          </button> -->
+        </div>
+        <div class="grid">
+          <p class="mt-2" id="tota-items">Total a pagar :</p>
+          <input
+            id="address-input"
+            type="text"
+            name=""
+            id=""
+            placeholder="Informe o seu endereço"
+            class="py-2 px-2 rounded-md border-solid border-gray-300 border-2 mt-3 mb-2"
+          />
+
+          <p class="hidden" id="input-warn">Pedido efetuado com sucesso</p>
+
+          <button
+            class="rounded-md bg-green-500 font-xl py-1 px-2 mt-3 text-white hover:bg-green-600 duration-150"
+            id="finally-order-btn"
+          >
+            Finalizar Pedido
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- END MODAL CART -->
+
+    <!-- END FOOTER CART -->
+    <button
+      class="bg-orange-500 w-full h-[45px] fixed bottom-0 z-40 flex flex-row justify-center items-center"
+      id="cart-footer-btn"
+    >
+      <p class="flex items-center gap-2 font-bold">
+        <span class="cart-count">(0)</span>
+        MEU CARRINHO
+        <i class="fa-solid fa-cart-plus"></i>
+      </p>
+    </button>
+    <!-- END FOOTER CART -->
+    <footer class="bg-marrom py-7 px-7">
+      <p class="text-white text-center mt-9 mb-9">
+        Sample text. Click to select the text box. Click again or double click
+        to start editing the text.
+      </p>
+
+      <p class="text-center mt-7">
+        <span class="text-orange-500">Template</span>
+        <spa class="text-white">criado com</spa>
+        <span class="text-orange-500">Nicepage.</span>
+      </p>
+    </footer>
+
+    <script
+      src="https://kit.fontawesome.com/ea1c908fb2.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

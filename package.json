@@ -1,0 +1,15 @@
+{
+  "name": "resumo-de-arrays",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./style/input.css -o ./style/output.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
