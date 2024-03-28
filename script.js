@@ -5,10 +5,11 @@ import {
   cartFooter,
   closeModalCart,
   cartCount,
-  finallyOrder,
   adressInput,
   inputWarnMessage,
   totalPayment,
+  finallyOrder,
+  cartContainer,
 } from "./elements.js";
 
 let cart = [];
@@ -86,19 +87,16 @@ function addToCart(product) {
     cart.push(newCartItem);
   }
   updatCartModal();
-  console.log(cart);
 }
 
 //listing items and updating display
 function updatCartModal() {
-  const itemCart = document.getElementById("item-cart");
-  let cartItemElement = document.createElement("div");
+  cartContainer.innerHTML = ``;
   cart.map((item) => {
-    let total = item.price * item.quantity;
-    let totalPayable = item.price * item.quantity * cart.length;
+    let cartItemElement = document.createElement("div");
     cartItemElement.innerHTML = `
-      <div class="grid gap-6" id="cart-items">
-        <div class="flex flex-row items-center justify-between gap-5 bg-gray-200 px-4 py-3 rounded-md mt-3">
+      <div class="grid gap-6" >
+        <div class="flex flex-row items-center justify-between gap-5 bg-gray-200 px-4 py-3 rounded-md mt-3" id="cart-items">
           <img
             src="${item.images}"
             alt=""
@@ -117,52 +115,81 @@ function updatCartModal() {
                 Qtd: ${item.quantity}
               </p>
               <p class="font-bold text-gray-500 text-sm">
-                Subtotal: ${formatPrices(total)}
+                Subtotal: 
               </p>
             </div>
           </div>
           <button
             class="bg-orange-500 hover:bg-orange-400 duration-200 rounded-md px-2 py-2"
-            id="btn-remove-item-cart"
+            id="btn-remove-item-cart" data-remove-id="${item.id}"
           >
             Remover
           </button>
         </div>
       </div>
       `;
-    itemCart.append(cartItemElement);
-    totalPayment.innerText = `Total a pagar : ${formatPrices(totalPayable)}`;
+    cartContainer.append(cartItemElement);
   });
-  cartCount.innerText = `(${cart.length})`;
+  const totalsObject = cart.reduce(
+    (state, currentItem) => {
+      state.totalQuantity += currentItem.quantity;
+      state.totalValue += currentItem.quantity * currentItem.price;
+      return state;
+    },
+    {
+      totalQuantity: 0,
+      totalValue: 0,
+    }
+  );
+  totalPayment.innerText = `Total a pagar : ${formatPrices(
+    totalsObject.totalValue
+  )}`;
+  cartCount.innerText = `(${totalsObject.totalQuantity})`;
 }
+
+// riceive information for delete item in the cart
+cartContainer.addEventListener("click", (event) => {
+  event.stopPropagation();
+  const removeItemButton = event.target.getAttribute("id");
+
+  if (removeItemButton.includes("btn-remove-item-cart")) {
+    const productToDeleteIdentifier = event.target.dataset.removeId;
+    const productItemId = cart.findIndex(
+      (productDelete) => productDelete.id == productToDeleteIdentifier
+    );
+    if (productItemId !== -1) {
+      const item = cart[productItemId];
+      if (item.quantity > 1) {
+        item.quantity -= 1;
+        updatCartModal();
+        return;
+      } else {
+        cart.splice(productItemId, 1);
+        totalPayment.innerText = "Total a pagar : 0,00";
+        updatCartModal();
+        return;
+      }
+    }
+  }
+});
 
 // validation if fields are empty and cart
 finallyOrder.addEventListener("click", () => {
-  const checkEmptyAdress =
-    adressInput.value === "" || adressInput.value === " ";
+  const checkEmptyAdress = adressInput.value.trim();
 
   if (cart.length <= 0) {
-    inputWarnMessage.classList.remove("hidden");
-    inputWarnMessage.innerText =
-      "Seu carrinho está vazio, realize o seu pedido!";
-    inputWarnMessage.style.color = "#4169E1";
+    setToast("", "Seu carrinho está vazio, realize o seu pedido!", "#4169E1");
     setTimeout(() => {
       closeModal();
       resetCartItems();
     }, 1500);
     return;
   }
-  if (checkEmptyAdress) {
-    inputWarnMessage.classList.remove("hidden");
-    inputWarnMessage.innerText = "Por favor, informe o endereço !";
-    inputWarnMessage.style.color = "#B22222";
-    adressInput.style.border = "1px solid #B22222";
+  if (!checkEmptyAdress) {
+    setToast("#B22222", "Por favor, informe o endereço !", "#B22222");
     return;
-  } else if (!checkEmptyAdress) {
-    inputWarnMessage.classList.remove("hidden");
-    inputWarnMessage.innerText = "Pedido efetuado com sucesso !";
-    inputWarnMessage.style.color = "#24a24a";
-    adressInput.style.border = "1px solid #24a24a";
+  } else if (checkEmptyAdress) {
+    setToast("#24a24a", "Pedido efetuado com sucesso !", "#24a24a");
     setTimeout(() => {
       closeModal();
       resetCartItems();
@@ -170,13 +197,18 @@ finallyOrder.addEventListener("click", () => {
   }
 });
 
+function setToast(colorBorder, warnMessage, colorText) {
+  inputWarnMessage.classList.remove("hidden");
+  adressInput.style.border = `1px solid ${colorBorder}`;
+  inputWarnMessage.innerText = `${warnMessage}`;
+  inputWarnMessage.style.color = `${colorText}`;
+}
+
 function resetCartItems() {
   cart = [];
   cartCount.innerHTML = `(${0})`;
   adressInput.value = "";
-  inputWarnMessage.innerText = "";
-  inputWarnMessage.style.color = "none";
-  adressInput.style.border = "1px solid #ccc";
+  setToast("none", "", "#ccc");
   updatCartModal();
 }
 
